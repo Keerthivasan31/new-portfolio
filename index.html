@@ -1,0 +1,877 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KV — Portfolio</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="favicon.png" />
+    <style>
+      /* ===== CSS VARIABLES — EDIT COLORS HERE ===== */
+      :root {
+        --bg: #0d0d0d;
+        --surface: #151515;
+        --surface2: #1e1e1e;
+        --accent: #c8a96e; /* gold accent — change to any color */
+        --accent2: #7c5cbf; /* purple highlight */
+        --text: #f0ede8;
+        --muted: #888;
+        --border: rgba(255, 255, 255, 0.08);
+        --radius: 10px;
+        --font-display: "Playfair Display", serif;
+        --font-body: "DM Sans", sans-serif;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-body);
+        font-size: 16px;
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      /* ===== NAV ===== */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.2rem 5vw;
+        background: rgba(13, 13, 13, 0.85);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-logo {
+        font-family: var(--font-display);
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--accent);
+        text-decoration: none;
+        letter-spacing: 0.02em;
+      }
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 0.88rem;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover {
+        color: var(--text);
+      }
+
+      /* ===== HERO ===== */
+      #hero {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        padding: 0 5vw;
+        gap: 4rem;
+        position: relative;
+        overflow: hidden;
+      }
+      #hero::before {
+        content: "";
+        position: absolute;
+        top: -200px;
+        right: -200px;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(124, 92, 191, 0.15) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+      .hero-text {
+        padding-top: 5rem;
+      }
+      .hero-tag {
+        display: inline-block;
+        font-size: 0.78rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--accent);
+        border: 1px solid var(--accent);
+        padding: 0.3rem 0.9rem;
+        border-radius: 999px;
+        margin-bottom: 1.5rem;
+      }
+      .hero-name {
+        font-family: var(--font-display);
+        font-size: clamp(2.8rem, 6vw, 5rem);
+        font-weight: 900;
+        line-height: 1.05;
+        margin-bottom: 0.5rem;
+      }
+      /* EDIT YOUR NAME HERE */
+      .hero-name span {
+        color: var(--accent);
+      }
+
+      .hero-title {
+        font-size: 1rem;
+        color: var(--muted);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+      }
+      .hero-bio {
+        font-size: 1rem;
+        color: rgba(240, 237, 232, 0.7);
+        max-width: 480px;
+        margin-bottom: 2.5rem;
+        line-height: 1.8;
+      }
+      .hero-cta {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .btn {
+        padding: 0.8rem 2rem;
+        border-radius: var(--radius);
+        font-family: var(--font-body);
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.25s;
+        display: inline-block;
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: #0d0d0d;
+        border: none;
+      }
+      .btn-primary:hover {
+        background: #d9bc88;
+        transform: translateY(-2px);
+      }
+      .btn-outline {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+      .btn-outline:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .hero-photo-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 5rem;
+      }
+      .hero-photo {
+        width: 380px;
+        height: 460px;
+        object-fit: cover;
+        border-radius: 16px;
+        filter: grayscale(20%);
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+        border: 1px solid var(--border);
+      }
+      /* If no photo, show placeholder */
+      .hero-photo-placeholder {
+        width: 380px;
+        height: 460px;
+        background: var(--surface2);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 5rem;
+        color: var(--muted);
+        border: 1px solid var(--border);
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+      }
+
+      /* ===== SECTION COMMON ===== */
+      section {
+        padding: 6rem 5vw;
+      }
+      .section-label {
+        font-size: 0.78rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 0.7rem;
+      }
+      .section-title {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+      .section-subtitle {
+        color: var(--muted);
+        max-width: 560px;
+        margin-bottom: 3.5rem;
+        font-size: 1rem;
+      }
+      .divider {
+        width: 50px;
+        height: 3px;
+        background: var(--accent);
+        margin-bottom: 1.2rem;
+        border-radius: 999px;
+      }
+
+      /* ===== ABOUT ===== */
+      #about {
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+      .about-text p {
+        color: rgba(240, 237, 232, 0.75);
+        margin-bottom: 1rem;
+        line-height: 1.85;
+      }
+      .about-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+      .stat-card {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        text-align: center;
+      }
+      .stat-number {
+        font-family: var(--font-display);
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--accent);
+        display: block;
+      }
+      .stat-label {
+        font-size: 0.82rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      /* ===== SKILLS ===== */
+      #skills {
+      }
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        gap: 1.2rem;
+      }
+      .skill-chip {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.2rem 0.8rem;
+        text-align: center;
+        transition: all 0.25s;
+        cursor: default;
+      }
+      .skill-chip:hover {
+        border-color: var(--accent);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(200, 169, 110, 0.15);
+      }
+      .skill-chip .icon {
+        font-size: 1.8rem;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+      .skill-chip .name {
+        font-size: 0.75rem;
+        color: var(--muted);
+        font-weight: 500;
+      }
+
+      /* ===== PROJECTS ===== */
+      #projects {
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 2rem;
+      }
+      .project-card {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        transition: all 0.3s;
+      }
+      .project-card:hover {
+        border-color: rgba(200, 169, 110, 0.4);
+        transform: translateY(-6px);
+        box-shadow: 0 24px 50px rgba(0, 0, 0, 0.4);
+      }
+      .project-thumb {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+      }
+      /* Placeholder for project images */
+      .project-thumb-placeholder {
+        width: 100%;
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+      }
+      .project-body {
+        padding: 1.5rem;
+      }
+      .project-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 0.8rem;
+      }
+      .tag {
+        font-size: 0.72rem;
+        padding: 0.2rem 0.7rem;
+        border-radius: 999px;
+        background: rgba(200, 169, 110, 0.1);
+        color: var(--accent);
+        border: 1px solid rgba(200, 169, 110, 0.25);
+        letter-spacing: 0.05em;
+      }
+      .project-title {
+        font-family: var(--font-display);
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+      .project-desc {
+        font-size: 0.9rem;
+        color: var(--muted);
+        line-height: 1.7;
+        margin-bottom: 1.2rem;
+      }
+      .project-links {
+        display: flex;
+        gap: 0.8rem;
+      }
+      .project-link {
+        font-size: 0.82rem;
+        font-weight: 600;
+        text-decoration: none;
+        color: var(--text);
+        border: 1px solid var(--border);
+        padding: 0.4rem 1rem;
+        border-radius: 6px;
+        transition: all 0.2s;
+      }
+      .project-link:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .project-link.live {
+        background: var(--accent);
+        color: #0d0d0d;
+        border-color: var(--accent);
+      }
+      .project-link.live:hover {
+        background: #d9bc88;
+      }
+
+      /* ===== CONTACT ===== */
+      #contact {
+        max-width: 700px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      #contact .section-title {
+        margin-bottom: 0.5rem;
+      }
+      .contact-desc {
+        color: var(--muted);
+        margin-bottom: 2.5rem;
+      }
+      .contact-form {
+        text-align: left;
+      }
+      .form-group {
+        margin-bottom: 1.2rem;
+      }
+      .form-group label {
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        margin-bottom: 0.45rem;
+      }
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 0.85rem 1rem;
+        color: var(--text);
+        font-family: var(--font-body);
+        font-size: 0.95rem;
+        transition: border-color 0.2s;
+        outline: none;
+      }
+      .form-group input:focus,
+      .form-group textarea:focus {
+        border-color: var(--accent);
+      }
+      .form-group textarea {
+        resize: vertical;
+        min-height: 130px;
+      }
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      .btn-submit {
+        width: 100%;
+        padding: 1rem;
+        background: var(--accent);
+        color: #0d0d0d;
+        border: none;
+        border-radius: var(--radius);
+        font-family: var(--font-body);
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        letter-spacing: 0.05em;
+        transition: all 0.25s;
+        margin-top: 0.5rem;
+      }
+      .btn-submit:hover {
+        background: #d9bc88;
+        transform: translateY(-2px);
+      }
+
+      /* ===== FOOTER ===== */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 2.5rem 5vw;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      footer p {
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+      .social-links {
+        display: flex;
+        gap: 1rem;
+      }
+      .social-links a {
+        color: var(--muted);
+        font-size: 0.85rem;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .social-links a:hover {
+        color: var(--accent);
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 768px) {
+        #hero {
+          grid-template-columns: 1fr;
+          text-align: center;
+          padding-top: 6rem;
+        }
+        .hero-bio {
+          margin: 0 auto 2rem;
+        }
+        .hero-cta {
+          justify-content: center;
+        }
+        .hero-photo-wrap {
+          display: none;
+        }
+        .about-grid {
+          grid-template-columns: 1fr;
+        }
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+        .nav-links {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ===== NAVIGATION ===== -->
+    <nav>
+      <a href="#hero" class="nav-logo">TG.</a>
+      <!-- EDIT: Change initials -->
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section id="hero">
+      <div class="hero-text">
+        <span class="hero-tag">Available for work</span>
+        <!-- EDIT: Change status -->
+        <h1 class="hero-name">
+          I'm a<br /><span>Cloud Engineer</span>
+          <!-- EDIT: Your headline -->
+        </h1>
+        <p class="hero-title">Cloud Engineer &amp; MERN Stack Developer</p>
+        <!-- EDIT: Your title -->
+        <p class="hero-bio">
+          <!-- EDIT: Your bio text -->
+          Passionate about building clean, performant web applications deployed
+          in cloud environments. I specialize in AWS , Devops and cloud
+          infrastructure. Always learning, always shipping.
+        </p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-primary">View Projects</a>
+          <a href="#contact" class="btn btn-outline">Get in Touch</a>
+        </div>
+      </div>
+
+      <div class="hero-photo-wrap">
+        <!-- EDIT: Replace src with your actual photo path, or remove this block -->
+        <img src="img2.webp" alt="KV" class="hero-photo" />
+        <!-- Uncomment below and set your image path:
+      <img src="your-photo.jpg" alt="Tomasz Gajda" class="hero-photo" />
+      --></div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about">
+      <div class="about-grid">
+        <div class="about-text">
+          <p class="section-label">About me</p>
+          <div class="divider"></div>
+          <h2 class="section-title">Who I Am</h2>
+          <!-- EDIT -->
+          <!-- EDIT: Your about paragraphs -->
+          <p>
+            Hi, I'm Keerthivasan — a AWS devops and Web development engineer
+            fresher with 0 years of experience building website development
+            projects and website. I love turning complex problems into elegant,
+            user-friendly interfaces.
+          </p>
+          <p>
+            When I'm not coding, I enjoy exploring new technologies,
+            contributing to open source, and improving my coffee brewing skills.
+          </p>
+          <p>
+            I'm based in Warsaw, Poland 🇵🇱 and open to remote opportunities
+            worldwide.
+          </p>
+          <br />
+          <a href="#contact" class="btn btn-primary">Hire Me</a>
+        </div>
+        <div class="about-stats">
+          <!-- EDIT: Your stats -->
+          <div class="stat-card">
+            <span class="stat-number">-</span>
+            <span class="stat-label">Years Exp.</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">2</span>
+            <span class="stat-label">Projects Done</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">-</span>
+            <span class="stat-label">Happy Clients</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">3</span>
+            <span class="stat-label">Certifications</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SKILLS ===== -->
+    <section id="skills">
+      <p class="section-label">What I work with</p>
+      <div class="divider"></div>
+      <h2 class="section-title">Skills &amp; Tools</h2>
+      <p class="section-subtitle">
+        Technologies I use daily to build modern, scalable applications.
+      </p>
+
+      <!-- EDIT: Add/remove skill chips. Use emoji or replace with <img> for real icons -->
+      <div class="skills-grid">
+        <div class="skill-chip">
+          <span class="icon">⚛️</span><span class="name">React</span>
+        </div>
+        <div class="skill-chip">
+          <span class="icon">🟨</span><span class="name">JavaScript</span>
+        </div>
+        <div class="skill-chip">
+          <span class="icon">🟢</span><span class="name">Node.js</span>
+        </div>
+        <div class="skill-chip">
+          <span class="icon">🐍</span><span class="name">Python</span>
+        </div>
+        <div class="skill-chip">
+          <span class="icon">🐳</span><span class="name">Docker</span>
+        </div>
+        <div class="skill-chip">
+          <span class="icon">☁️</span><span class="name">AWS</span>
+        </div>
+        <div class="skill-chip">
+          <span class="icon">🍃</span><span class="name">MongoDB</span>
+        </div>
+        <div class="skill-chip">
+          <span class="icon">🐙</span><span class="name">Git</span>
+        </div>
+        <div class="skill-chip">
+          <span class="icon">⚡</span><span class="name">Next.js</span>
+        </div>
+        <div class="skill-chip">
+          <span class="icon">🔧</span><span class="name">Linux</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROJECTS ===== -->
+    <section id="projects">
+      <p class="section-label">What I've built</p>
+      <div class="divider"></div>
+      <h2 class="section-title">Projects</h2>
+      <p class="section-subtitle">
+        A selection of real-world projects I've worked on.
+      </p>
+
+      <div class="projects-grid">
+        <!-- PROJECT 1 — EDIT details below -->
+        <div class="project-card">
+          <div
+            class="project-thumb-placeholder"
+            style="background: linear-gradient(135deg, #1a0533, #3b1278)"
+          >
+            🌌
+          </div>
+          <div class="project-body">
+            <div class="project-tags">
+              <span class="tag">React</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">MongoDB</span>
+            </div>
+            <h3 class="project-title">Project Name One</h3>
+            <!-- EDIT -->
+            <p class="project-desc">
+              A brief description of what this project does and what problem it
+              solves. Keep it to 1–2 sentences.
+            </p>
+            <!-- EDIT -->
+            <div class="project-links">
+              <a href="#" class="project-link live">Live Demo</a>
+              <!-- EDIT href -->
+              <a href="#" class="project-link">GitHub</a>
+              <!-- EDIT href -->
+            </div>
+          </div>
+        </div>
+
+        <!-- PROJECT 2 — EDIT details below -->
+        <div class="project-card">
+          <div
+            class="project-thumb-placeholder"
+            style="background: linear-gradient(135deg, #0d2b1a, #1a5c38)"
+          >
+            🌿
+          </div>
+          <div class="project-body">
+            <div class="project-tags">
+              <span class="tag">Next.js</span>
+              <span class="tag">AWS</span>
+              <span class="tag">Docker</span>
+            </div>
+            <h3 class="project-title">Project Name Two</h3>
+            <!-- EDIT -->
+            <p class="project-desc">
+              Another project description goes here. Mention the key tech and
+              the outcome or impact.
+            </p>
+            <!-- EDIT -->
+            <div class="project-links">
+              <a href="#" class="project-link live">Live Demo</a>
+              <a href="#" class="project-link">GitHub</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROJECT 3 — EDIT details below -->
+        <div class="project-card">
+          <div
+            class="project-thumb-placeholder"
+            style="background: linear-gradient(135deg, #1a1400, #4a3a00)"
+          >
+            🔥
+          </div>
+          <div class="project-body">
+            <div class="project-tags">
+              <span class="tag">Python</span>
+              <span class="tag">Docker</span>
+              <span class="tag">Redis</span>
+            </div>
+            <h3 class="project-title">Project Name Three</h3>
+            <!-- EDIT -->
+            <p class="project-desc">
+              Third project description. What was the challenge? What was your
+              role and what did you build?
+            </p>
+            <!-- EDIT -->
+            <div class="project-links">
+              <a href="#" class="project-link live">Live Demo</a>
+              <a href="#" class="project-link">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact" style="padding: 6rem 5vw">
+      <div style="max-width: 660px; margin: 0 auto; text-align: center">
+        <p class="section-label">Let's talk</p>
+        <div class="divider" style="margin: 0 auto 1.2rem"></div>
+        <h2 class="section-title">Get In Touch</h2>
+        <p class="contact-desc">
+          Have a project in mind? Looking to hire? Just want to say hi? Drop me
+          a message.
+        </p>
+      </div>
+
+      <form
+        class="contact-form"
+        style="max-width: 660px; margin: 0 auto"
+        onsubmit="handleSubmit(event)"
+      >
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="your@email.com"
+              required
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <input type="text" id="subject" placeholder="What's this about?" />
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea
+            id="message"
+            placeholder="Tell me about your project..."
+            required
+          ></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Send Message →</button>
+        <p
+          id="form-status"
+          style="
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--accent);
+            display: none;
+          "
+        >
+          ✓ Message sent! I'll get back to you soon.
+        </p>
+      </form>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+      <p>© 2026 KEERTHIVASAN. Built with HTML &amp; CSS.</p>
+      <!-- EDIT: Your name & year -->
+      <nav class="social-links">
+        <!-- EDIT: Your social links -->
+        <a href="https://github.com/keerthivasan3146-a11y" target="_blank"
+          >GitHub</a
+        >
+        <a
+          href="https://www.linkedin.com/in/keerthivasan-d-43b205370/"
+          target="_blank"
+          >LinkedIn</a
+        >
+        <a href="https://twitter.com/" target="_blank">Twitter</a>
+        <a href="mailto:keerthivasan3182001@gmail.com">Email</a>
+        <!-- EDIT: Your email -->
+      </nav>
+    </footer>
+
+    <script>
+      function handleSubmit(e) {
+        e.preventDefault();
+        // EDIT: Replace with your actual form submission logic
+        // e.g. fetch('/api/contact', { method: 'POST', body: new FormData(e.target) })
+        const status = document.getElementById("form-status");
+        status.style.display = "block";
+        e.target.reset();
+        setTimeout(() => (status.style.display = "none"), 4000);
+      }
+    </script>
+  </body>
+</html>
