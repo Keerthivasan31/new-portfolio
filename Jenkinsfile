@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/Keerthivasan31/portfolio.git'
+                    url: 'https://github.com/Keerthivasan31/new-portfolio.git'
             }
         }
 
